@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     <!-- Helper -->
     function convertIntegerToDateFormat(value) {
@@ -15,9 +15,7 @@ $(document).ready(function() {
     }
 
     function generateTimeSeries(_this) {
-        var index = 0;
         var stepValue = 60 / _this.slotInMinutes;
-        var maxValue = 2400;
 
         _this.fromValues = [];
         _this.toValues = [];
@@ -42,21 +40,42 @@ $(document).ready(function() {
         return _this;
     }
 
+    function convertFormatToInteger(formatValue) {
+        var lowerCaseFormatValue = formatValue.toLowerCase();
+        var array = lowerCaseFormatValue.split(':');
+        var hour = parseInt(array[0]);
+        var minutes = parseInt(array[1]);
+        var value;
+
+        if (lowerCaseFormatValue.indexOf('am') == -1) {
+            value = ((hour + 12) * 100) + minutes;
+        } else {
+            value = (hour * 100) + minutes;
+        }
+
+        return value;
+    }
+
+    function convertFormatToIntegerArray(selectedValues) {
+        return selectedValues.map(function (value) {
+            return $.map(value, function (range) {
+                return convertFormatToInteger(range);
+            })
+        })
+    }
 
     $.fn.createAvailability = function createAvailability() {
-        this.each(function(index, ele) {
+        this.each(function (index, ele) {
             var _this = ele;
             _this.fromEle = $(_this).find('.from-time');
             _this.toEle = $(_this).find('.to-time');
             _this.timeSelectedArea = $(_this).find('.time-selected-area');
-            _this.fromEle$ = $(_this.fromEle);
-            _this.toEle$ = $(_this.toEle);
-            _this.selectedValues = $(_this).data('values');
+            _this.selectedValues = convertFormatToIntegerArray($(_this).data('values'));
             _this.slotInMinutes = $(_this).data('minutes') || 30;
             _this = generateTimeSeries(_this);
 
             function createDefaultAvailabilities() {
-                _this.selectedValues.forEach(function(slot) {
+                _this.selectedValues.forEach(function (slot) {
                     createTemplate(slot[0], slot[1]);
                 })
             }
@@ -64,21 +83,21 @@ $(document).ready(function() {
             function postValuesFromTime() {
                 _this.fromEle.html('');
 
-                _this.fromValues.forEach(function(fromValue) {
+                _this.fromValues.forEach(function (fromValue) {
                     if (!isSelectedFromValue(fromValue)) {
                         _this.fromEle.append("<option value=" + fromValue + ">" + convertIntegerToDateFormat(fromValue) + "</option>");
                     }
                 })
-            };
+            }
 
             function isSelectedFromValue(value) {
                 var isSelected = false;
 
-                _this.selectedValues.forEach(function(selectedSlot) {
+                _this.selectedValues.forEach(function (selectedSlot) {
                     if (selectedSlot[0] <= value && value < selectedSlot[1]) {
                         isSelected = true;
                     }
-                })
+                });
 
                 return isSelected;
             }
@@ -96,13 +115,13 @@ $(document).ready(function() {
 
                 _this.toEle.html('');
 
-                _this.toValues.forEach(function(toValue) {
+                _this.toValues.forEach(function (toValue) {
                     if (!isSelectedToValue(toValue) && toValue > fromValue) {
                         toSelectedValuesLocal.push(toValue);
                     }
-                })
+                });
 
-                toSelectedValuesLocal.forEach(function(toValue) {
+                toSelectedValuesLocal.forEach(function (toValue) {
                     if (index == 0 || isConsecutiveSeries(toValue, toSelectedValuesLocal) && flag) {
                         _this.toEle.append("<option value=" + toValue + ">" + convertIntegerToDateFormat(toValue) + "</option>");
                         index = 1;
@@ -138,11 +157,11 @@ $(document).ready(function() {
                 var isSelected = false;
                 var index = 0;
 
-                _this.selectedValues.forEach(function(selectedSlot) {
+                _this.selectedValues.forEach(function (selectedSlot) {
                     if (selectedSlot[0] < value && value <= selectedSlot[1]) {
                         isSelected = true;
                     }
-                })
+                });
                 return isSelected;
             }
 
@@ -191,7 +210,7 @@ $(document).ready(function() {
                 var toTime = selectedEle.find('.input-to-time').data('raw-value');
                 var selectedRange = [fromTime, toTime];
 
-                _this.selectedValues.forEach(function(selectedSlot) {
+                _this.selectedValues.forEach(function (selectedSlot) {
                     if (fromTime != selectedSlot[0] && toTime != selectedSlot[1]) {
                         newSelectedList.push(selectedSlot);
                     }
@@ -214,7 +233,7 @@ $(document).ready(function() {
 
             defaultsLoad();
         })
-    }
+    };
 
     $('.time-select').createAvailability();
-})
+});
