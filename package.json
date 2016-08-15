@@ -11,7 +11,8 @@
     "url": "git@github.com:rdurgarao/time-availability-js.git"
   },
   "keywords": [
-    "jquery"
+    "jquery",
+    "jquery-plugin"
   ],
   "author": "rdurgarao",
   "license": "MIT"
