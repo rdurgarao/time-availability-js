@@ -1,43 +1,43 @@
 <html>
-<head>
+  <head>
     <script src="./lib/jquery-3.1.0.js"></script>
     <script src="./lib/time-availability.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class='time-select'>
     </div>
-<script>
 
-$(document).ready(function(){
+    <script>
+      $(document).ready(function () {
 
-  $('.time-select').createAvailability({
-    minutes: 30,
-    disabled: false,
-    isPrependTemplate: true,
-    fromTimeEle: 'from-time',
-    toTimeEle: 'to-time',
-    timeSelectedArea: 'time-selected-area',
-    removeAvailabilityEle: 'remove-availability',
-    timeSlotEle: 'time-slot',
-    inputFromTimeEle: 'input-from-time',
-    inputToTimeEle: 'input-to-time',
-    addAvailabilityEle: 'add-availability',
-    optionTemplate: '<option></option>',
-    template: "<div class='time-selected-area'>"+
-              "from <select class='from-time'>test</select>"+
-              "to <select class='to-time'></select>"+
-              "<button class='add-availability'>Add</button></div>",
-    selectedTemplate: "<div class='time-slot'>" +
-                      "from <input class='input-from-time' disabled='disabled' />" +
-                      "to <input class='input-to-time' disabled='disabled' />" +
-                      "<button class='remove-availability'>" +
-                      "X" +
-                      "</button>" +
-                      "</div>",
-    values: [["11:00 AM", "02:00 PM"], ["07:00AM", "09:00AM"], ["04:00 PM", "06:00 PM"]]
-  });
+        $('.time-select').createAvailability({
+          minutes: 30,
+          disabled: false,
+          isPrependTemplate: true,
+          fromTimeEle: 'from-time',
+          toTimeEle: 'to-time',
+          timeSelectedArea: 'time-selected-area',
+          removeAvailabilityEle: 'remove-availability',
+          timeSlotEle: 'time-slot',
+          inputFromTimeEle: 'input-from-time',
+          inputToTimeEle: 'input-to-time',
+          addAvailabilityEle: 'add-availability',
+          optionTemplate: '<option></option>',
+          template: "<div class='time-selected-area'>" +
+          "from <select class='from-time'>test</select>" +
+          "to <select class='to-time'></select>" +
+          "<button class='add-availability'>Add</button></div>",
+          selectedTemplate: "<div class='time-slot'>" +
+          "from <input class='input-from-time' disabled='disabled' />" +
+          "to <input class='input-to-time' disabled='disabled' />" +
+          "<button class='remove-availability'>" +
+          "X" +
+          "</button>" +
+          "</div>",
+          values: [["11:00 AM", "02:00 PM"], ["07:00AM", "09:00AM"], ["04:00 PM", "06:00 PM"]]
+        });
 
-})
-</script>
-</body>
+      })
+    </script>
+  </body>
 </html>
